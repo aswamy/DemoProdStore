@@ -118,6 +118,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <h2>Moo Moo Meadows</h2>
         <Layout {...data}>
           <Outlet />
         </Layout>
