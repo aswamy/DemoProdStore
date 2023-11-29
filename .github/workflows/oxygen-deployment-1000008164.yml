@@ -40,7 +40,7 @@ jobs:
 
       - name: Build and Publish to Oxygen
         id: deploy
-        uses: shopify/oxygenctl-action@v4
+        uses: shopify/oxygenctl-action@add-generate-auth-bypass-token-input
         with:
           oxygen_deployment_token: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
           build_command: "HYDROGEN_ASSET_BASE_URL=$OXYGEN_ASSET_BASE_URL npm run build"
