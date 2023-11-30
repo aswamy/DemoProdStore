@@ -40,7 +40,7 @@ jobs:
 
       - name: Build and Publish to Oxygen
         id: deploy
-        uses: shopify/oxygenctl-action@latest #shopify/oxygenctl-action@add-generate-auth-bypass-token-input
+        uses: shopify/oxygenctl-action@v4 #shopify/oxygenctl-action@add-generate-auth-bypass-token-input
         with:
           generate_auth_bypass_token: true
           oxygen_deployment_token: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
