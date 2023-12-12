@@ -36,7 +36,9 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm ci
+          npx playwright install --with-deps
 
       - name: Build and Publish to Oxygen
         id: deploy
