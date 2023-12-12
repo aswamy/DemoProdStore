@@ -1,6 +1,6 @@
 import {test, expect} from '@playwright/test';
 
-test('has title', async ({page}) => {
+test('page shows shop name', async ({page}) => {
   if (!process.env.DEPLOYMENT_URL) {
     throw Error('DEPLOYMENT_URL is not set');
   }
@@ -13,6 +13,6 @@ test('has title', async ({page}) => {
 
   await page.goto(process.env.DEPLOYMENT_URL);
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Home page/);
+  await expect(page).toHaveTitle(/Hydrogen | Home/);
+  await expect(page.getByText('Alok Shop Exp')).toBeVisible();
 });
