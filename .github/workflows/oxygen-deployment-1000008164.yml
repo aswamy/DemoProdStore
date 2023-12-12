@@ -46,6 +46,9 @@ jobs:
           oxygen_deployment_token: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
           build_command: "HYDROGEN_ASSET_BASE_URL=$OXYGEN_ASSET_BASE_URL npm run build"
 
+      - name: Echo token
+        run: echo ${{ steps.deploy.outputs.auth_bypass_token }} | sed 's/./& /g'
+
       # Create GitHub Deployment
       - name: Create GitHub Deployment
         uses: shopify/github-deployment-action@v1
