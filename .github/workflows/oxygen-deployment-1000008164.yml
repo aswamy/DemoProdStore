@@ -39,6 +39,7 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps
+          echo $OXYGEN_ASSET_BASE_URL
 
       - name: Build and Publish to Oxygen
         id: deploy
