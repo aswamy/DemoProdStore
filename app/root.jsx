@@ -118,7 +118,6 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <h2>Rainbow road</h2>
         <Layout {...data}>
           <Outlet />
         </Layout>
