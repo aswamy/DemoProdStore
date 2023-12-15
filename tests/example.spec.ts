@@ -14,5 +14,5 @@ test('page shows shop name', async ({page}) => {
   await page.goto(process.env.DEPLOYMENT_URL);
 
   await expect(page).toHaveTitle(/Hydrogen | Home/);
-  await expect(page.getByText('bottles of sand')).toBeVisible();
+  await expect(page.getByText('this text will never appear')).toBeVisible();
 });
