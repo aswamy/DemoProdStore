@@ -41,19 +41,30 @@ jobs:
           npx playwright install --with-deps
           echo $OXYGEN_ASSET_BASE_URL
 
+      # - name: Build and Publish to Oxygen
+      #   id: deploy
+      #   uses: shopify/oxygenctl-action@generate-auth-bypass-token
+      #   with:
+      #     generate_auth_bypass_token: true
+      #     oxygen_deployment_token: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
+      #     build_command: "HYDROGEN_ASSET_BASE_URL=$OXYGEN_ASSET_BASE_URL npm run build"
+
+      # - name: Run end-to-end test
+      #   run: npx playwright test
+      #   env:
+      #     DEPLOYMENT_URL: ${{ steps.deploy.outputs.url }}
+      #     AUTH_BYPASS_TOKEN: ${{ steps.deploy.outputs.auth_bypass_token }}
+      
       - name: Build and Publish to Oxygen
         id: deploy
-        uses: shopify/oxygenctl-action@generate-auth-bypass-token
-        with:
-          generate_auth_bypass_token: true
-          oxygen_deployment_token: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
-          build_command: "HYDROGEN_ASSET_BASE_URL=$OXYGEN_ASSET_BASE_URL npm run build"
+        env:
+          SHOPIFY_HYDROGEN_DEPLOYMENT_TOKEN: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
+        run:
+          npx shopify hydrogen deploy --auth-bypass-token
 
       - name: Run end-to-end test
-        run: npx playwright test
-        env:
-          DEPLOYMENT_URL: ${{ steps.deploy.outputs.url }}
-          AUTH_BYPASS_TOKEN: ${{ steps.deploy.outputs.auth_bypass_token }}
+        run:
+          cat h2_deploy_log.json
 
       # Create GitHub Deployment
       - name: Create GitHub Deployment
