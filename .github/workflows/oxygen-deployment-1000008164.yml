@@ -41,6 +41,9 @@ jobs:
           npx playwright install --with-deps
           echo $OXYGEN_ASSET_BASE_URL
 
+      - name: Cat cli
+        run: cat node_modules/@shopify/cli-hydrogen/package.json
+
       # - name: Build and Publish to Oxygen
       #   id: deploy
       #   uses: shopify/oxygenctl-action@generate-auth-bypass-token
@@ -54,13 +57,13 @@ jobs:
       #   env:
       #     DEPLOYMENT_URL: ${{ steps.deploy.outputs.url }}
       #     AUTH_BYPASS_TOKEN: ${{ steps.deploy.outputs.auth_bypass_token }}
-      
+
       - name: Build and Publish to Oxygen
         id: deploy
         env:
           SHOPIFY_HYDROGEN_DEPLOYMENT_TOKEN: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
         run:
-          npx shopify hydrogen deploy --auth-bypass-token
+          node_modules/.bin/shopify hydrogen deploy --auth-bypass-token
 
       - name: Run end-to-end test
         run:
