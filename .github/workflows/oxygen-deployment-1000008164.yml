@@ -38,21 +38,20 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npx playwright install --with-deps
-          echo $OXYGEN_ASSET_BASE_URL
+          npm run e2e-test-dependencies
 
       - name: Build and Publish to Oxygen
         id: deploy
         env:
           SHOPIFY_HYDROGEN_DEPLOYMENT_TOKEN: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
         run:
-          node_modules/.bin/shopify hydrogen deploy --auth-bypass-token
+          npm run deploy-with-e2e
 
       - name: Run end-to-end test
         run: |
           export AUTH_BYPASS_TOKEN=$(jq -r '.authBypassToken' h2_deploy_log.json)
           export DEPLOYMENT_URL=$(jq -r '.url' h2_deploy_log.json)
-          npx playwright test
+          npm run e2e-test
 
       # Create GitHub Deployment
       - name: Create GitHub Deployment
