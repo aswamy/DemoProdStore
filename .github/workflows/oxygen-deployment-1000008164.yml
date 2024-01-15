@@ -53,7 +53,6 @@ jobs:
           export DEPLOYMENT_URL=$(jq -r '.url' h2_deploy_log.json)
           npm run e2e-test
 
-      # Create GitHub Deployment
       - name: Create GitHub Deployment
         uses: shopify/github-deployment-action@v1
         if: always()
