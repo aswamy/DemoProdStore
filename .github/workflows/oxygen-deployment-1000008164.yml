@@ -45,7 +45,7 @@ jobs:
         env:
           SHOPIFY_HYDROGEN_DEPLOYMENT_TOKEN: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
         run:
-          npm run deploy-with-e2e
+          npm run deploy-with-e2e     # shopify hydrogen deploy --auth-bypass-token
 
       - name: Run end-to-end test
         run: |
