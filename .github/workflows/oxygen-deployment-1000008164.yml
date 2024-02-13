@@ -1,7 +1,7 @@
 # Don't change the line below!
-#! oxygen_storefront_id: 1000008164
+#! oxygen_storefront_id: 1000013823
 
-name: Storefront 1000008164
+name: Storefront 1000013823
 on: [push]
 
 permissions:
@@ -14,17 +14,17 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: 'lts/*'
           check-latest: true
 
       - name: Cache node modules
         id: cache-npm
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
@@ -42,10 +42,8 @@ jobs:
 
       - name: Build and Publish to Oxygen
         id: deploy
-        env:
-          SHOPIFY_HYDROGEN_DEPLOYMENT_TOKEN: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
         run:
-          npm run deploy-with-e2e     # shopify hydrogen deploy --auth-bypass-token
+          npx shopify hydrogen deploy --auth-bypass-token --token="${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000013823 }}"
 
       - name: Run end-to-end test
         run: |
