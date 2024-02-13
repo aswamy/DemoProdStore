@@ -1,7 +1,7 @@
 # Don't change the line below!
-#! oxygen_storefront_id: 1000008164
+#! oxygen_storefront_id: 1000013823
 
-name: Storefront 1000008164
+name: Storefront 1000013823
 on: [push]
 
 permissions:
@@ -14,17 +14,17 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: 'lts/*'
           check-latest: true
 
       - name: Cache node modules
         id: cache-npm
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-node-modules
         with:
@@ -38,29 +38,23 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npx playwright install --with-deps
-          echo $OXYGEN_ASSET_BASE_URL
+          npm run e2e-test-dependencies
 
       - name: Build and Publish to Oxygen
         id: deploy
-        uses: shopify/oxygenctl-action@generate-auth-bypass-token
-        with:
-          generate_auth_bypass_token: true
-          oxygen_deployment_token: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000008164 }}
-          build_command: "HYDROGEN_ASSET_BASE_URL=$OXYGEN_ASSET_BASE_URL npm run build"
+        run:
+          npx shopify hydrogen deploy --auth-bypass-token --token="${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000013823 }}"
 
       - name: Run end-to-end test
-        run: npx playwright test
-        env:
-          DEPLOYMENT_URL: ${{ steps.deploy.outputs.url }}
-          AUTH_BYPASS_TOKEN: ${{ steps.deploy.outputs.auth_bypass_token }}
+        run: |
+          export AUTH_BYPASS_TOKEN=$(jq -r '.authBypassToken' h2_deploy_log.json)
+          export DEPLOYMENT_URL=$(jq -r '.url' h2_deploy_log.json)
+          npm run e2e-test
 
-      # Create GitHub Deployment
       - name: Create GitHub Deployment
         uses: shopify/github-deployment-action@v1
         if: always()
         with:
           token: ${{ github.token }}
           environment: 'preview'
-          preview_url: ${{ steps.deploy.outputs.url }}
           description: ${{ github.event.head_commit.message }}
