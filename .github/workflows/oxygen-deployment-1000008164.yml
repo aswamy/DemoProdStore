@@ -29,11 +29,13 @@ jobs:
         id: deploy
         run: |
           npx shopify hydrogen deploy --auth-bypass-token --token "${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000013823 }}"
-          export AUTH_BYPASS_TOKEN=$(jq -r '.authBypassToken' h2_deploy_log.json)
-          export DEPLOYMENT_URL=$(jq -r '.url' h2_deploy_log.json)
+          echo "AUTH_BYPASS_TOKEN=$(jq -r '.authBypassToken' h2_deploy_log.json)" >> $GITHUB_ENV
+          echo "DEPLOYMENT_URL=$(jq -r '.url' h2_deploy_log.json)" >> $GITHUB_ENV
 
       - name: Run end-to-end test
         uses: ./.github/actions/end-to-end-test
         with:
           url: ${{env.DEPLOYMENT_URL}}
           auth-bypass-token: ${{env.AUTH_BYPASS_TOKEN}}
+          foo-1: ${{ env.DEPLOYMENT_URL }}
+          foo-2: "$(jq -r '.authBypassToken' h2_deploy_log.json)"
