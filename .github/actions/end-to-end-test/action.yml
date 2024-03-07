@@ -10,8 +10,6 @@ secrets:
 
 runs:
   using: 'composite'
-  name: ⚫️ Playwright tests
-  timeout-minutes: 15
   steps:
     - name: ⬇️ Checkout repo
       uses: actions/checkout@v4
