@@ -4,8 +4,14 @@ on: [pull_request]
 jobs:
   e2e:
     name: End-to-end tests
-    timeout-minutes: 15
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: ci-e2e-${{ github.ref }}
+      cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/end-to-end-test
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+
+      - name: ⬣ Run end-to-end tests
+        uses: ./.github/actions/end-to-end-tests
