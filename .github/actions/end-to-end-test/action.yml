@@ -4,9 +4,9 @@ inputs:
   url:
     required: false
     type: string
-secrets:
   auth-bypass-token:
     required: false
+    type: string
 
 runs:
   using: 'composite'
@@ -22,9 +22,11 @@ runs:
         cache-dependency-path: '**/package-lock.json'
 
     - name: 📥 Install dependencies
+      shell: 'bash'
       run: npm ci
 
     - name: 📦 Build
+      shell: 'bash'
       run: npm run build
 
     - name: 💾 Turbo cache
@@ -39,6 +41,7 @@ runs:
           turbo-${{ github.job }}-${{ github.ref_name }}-
 
     - name: 📄 Get installed Playwright version
+      shell: 'bash'
       run: echo "PLAYWRIGHT_VERSION=$(npm ls @playwright/test | grep @playwright -m 1 | sed 's/.*@//')"  >> $GITHUB_ENV
 
     - name: 💾 Cache Playwright binaries
@@ -50,17 +53,20 @@ runs:
         key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
 
     - name: 💽 Install Playwright Browsers (all)
+      shell: 'bash'
       if: steps.playwright-cache.outputs.cache-hit != 'true'
       run: npx playwright install --with-deps
 
     - name: 💽 Install Playwright (only system deps)
+      shell: 'bash'
       if: steps.playwright-cache.outputs.cache-hit == 'true'
       run: npx playwright install-deps
 
     - name: 🍄 Run Playwright tests
+      shell: 'bash'
       run: |
-        export AUTH_BYPASS_TOKEN=${{secrets.auth-bypass-token}}
-        export DEPLOYMENT_URL=${{inputs.url}}
+        export AUTH_BYPASS_TOKEN=${{ inputs.auth-bypass-token }}
+        export DEPLOYMENT_URL=${{ inputs.url }}
         npx playwright test
 
     - name: 🗒 Report
