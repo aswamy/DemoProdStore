@@ -1,0 +1,11 @@
+name: 🚀 CI
+on: [pull_request]
+
+jobs:
+  e2e:
+    name: End-to-end tests
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/end-to-end-test
