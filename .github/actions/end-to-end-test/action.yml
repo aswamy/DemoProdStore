@@ -2,11 +2,11 @@ name: 🚀 End-to-end tests
 
 inputs:
   url:
-  required: false
-  type: string
+    required: false
+    type: string
 secrets:
   auth-bypass-token:
-  required: false
+    required: false
 
 runs:
   using: 'composite'
