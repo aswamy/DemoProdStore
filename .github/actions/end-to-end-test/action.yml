@@ -7,40 +7,12 @@ inputs:
   auth-bypass-token:
     required: false
     type: string
-  foo-1:
-    required: false
-    type: string
-  foo-2:
-    required: false
-    type: string
-  foo-3:
-    required: false
-    type: string
-  foo-4:
-    required: false
-    type: string
-  foo-5:
-    required: false
-    type: string
-
 
 runs:
   using: 'composite'
   steps:
     - name: ⬇️ Checkout repo
       uses: actions/checkout@v4
-
-    - name: "ALOK"
-      shell: 'bash'
-      run: |
-        echo ${{ env.DEPLOYMENT_URL }}
-        echo ${{ inputs.url }}
-        echo ${{ inputs.foo-1 }}
-        echo ${{ inputs.foo-2 }}
-        echo ${{ inputs.foo-3 }}
-        echo ${{ inputs.foo-4 }}
-        echo ${{ inputs.foo-5 }}
-        echo "done echoing"
 
     - name: 📥 Install dependencies
       shell: 'bash'

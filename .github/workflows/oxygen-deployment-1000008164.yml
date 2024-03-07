@@ -37,5 +37,3 @@ jobs:
         with:
           url: ${{env.DEPLOYMENT_URL}}
           auth-bypass-token: ${{env.AUTH_BYPASS_TOKEN}}
-          foo-1: ${{ env.DEPLOYMENT_URL }}
-          foo-2: "$(jq -r '.authBypassToken' h2_deploy_log.json)"
