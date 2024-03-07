@@ -3,5 +3,9 @@ on: [pull_request]
 
 jobs:
   e2e:
-    name: ⚫️ Playwright tests
-    uses: ./.github/actions/end-to-end-test
+    name: End-to-end tests
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run end-to-end test
+        uses: ./.github/actions/end-to-end-test
