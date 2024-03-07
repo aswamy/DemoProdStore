@@ -35,7 +35,7 @@ jobs:
           export DEPLOYMENT_URL=$(jq -r '.url' h2_deploy_log.json)
 
       - name: Run end-to-end test
-        uses: ./.github/workflows/e2e-test.yml
+        uses: ./.github/actions/end-to-end-test
         with:
-          url: DEPLOYMENT_URL
-          auth-bypass-token: AUTH_BYPASS_TOKEN
+          url: ${{env.DEPLOYMENT_URL}}
+          auth-bypass-token: ${{env.AUTH_BYPASS_TOKEN}}
