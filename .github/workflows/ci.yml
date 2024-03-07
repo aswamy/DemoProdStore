@@ -7,5 +7,5 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
-      - name: Run end-to-end test
-        uses: ./.github/actions/end-to-end-test
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/end-to-end-test
