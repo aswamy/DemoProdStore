@@ -29,11 +29,13 @@ jobs:
 
       - name: Build and Publish to Oxygen
         id: deploy
-        run:
-          npx shopify hydrogen deploy --auth-bypass-token --token "${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000013823 }}"
-
-      - name: Run end-to-end test
         run: |
+          npx shopify hydrogen deploy --auth-bypass-token --token "${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000013823 }}"
           export AUTH_BYPASS_TOKEN=$(jq -r '.authBypassToken' h2_deploy_log.json)
           export DEPLOYMENT_URL=$(jq -r '.url' h2_deploy_log.json)
-          npm run e2e-test
+
+      - name: Run end-to-end test
+        uses: .github/workflows/e2e-test.yml
+        with:
+          url: DEPLOYMENT_URL
+          auth-bypass-token: AUTH_BYPASS_TOKEN
