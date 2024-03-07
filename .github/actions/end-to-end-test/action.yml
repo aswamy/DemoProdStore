@@ -57,10 +57,7 @@ runs:
 
     - name: 🍄 Run Playwright tests
       shell: 'bash'
-      run: |
-        export AUTH_BYPASS_TOKEN=${{ inputs.auth-bypass-token }}
-        export DEPLOYMENT_URL=${{ inputs.url }}
-        npx playwright test
+      run: URL=${{ inputs.url }} AUTH_BYPASS_TOKEN=${{ inputs.auth-bypass-token }} npx playwright test
 
     - name: 🗒 Report
       uses: actions/upload-artifact@v3
