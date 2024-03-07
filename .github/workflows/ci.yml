@@ -1,0 +1,7 @@
+name: 🚀 CI
+on: [pull_request]
+
+jobs:
+  e2e:
+    name: ⚫️ Playwright tests
+    uses: ./.github/actions/end-to-end-test
